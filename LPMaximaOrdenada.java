@@ -25,64 +25,73 @@ public class LPMaximaOrdenada {
 		for(int i = 0; i < entrada.size(); i++){
 			vetor[i] = entrada.get(i);
 		}
-		quickSort(entrada.get(0), entrada.size() - 1);
 		n = entrada.size();
+		quickSort(0, n - 1);
 	}
 	
 	public int getMaximaPrioridade(){
-		int maxima = 0;
-		for(int i = 1; i < n; i++){
-			if(vetor[i] > vetor[maxima]){
-				maxima = i;
-			}
+		if(n > 0){
+			return this.vetor[this.n - 1];
 		}
-		return vetor[maxima];
+		return -1;
 	}
 	
 	public int remove(){
-		int maxima = 0;
-		for(int i = 1; i < n; i++){
-			if(vetor[i] > vetor[maxima]){
-				maxima = i;
-			}
+		if(n > 0){
+			return vetor[--n];
 		}
-		int aux = vetor[maxima];
-		n--;
-		vetor[maxima] = vetor[n];
-		return aux;
+		return 0;
 	}	
 	
 	public void inserir(int prioridade){
 		if(n + 1 < nMaximo){
-			vetor[n] = prioridade;
-			n++;
-			quickSort(vetor[0], vetor[n]);
+			int i = n;
+			for(;i >= 0; i--){
+				while(vetor[i] > prioridade && i >= 0){
+					vetor[i + 1] = vetor [i];
+					i--;
+				}
+				vetor[i + 1] = prioridade;
+				n++;
+			}
 		}
 	}
 	
 	public void alterarPrioridade(int prioridade, int novaPrioridade){
-		for(int i = 0; i < n; i++){
-			if(vetor[i] == prioridade){
-				vetor[i] = novaPrioridade;
-				break;
+		if(n > 0){
+			int i = 0;
+			for(;i < n; i++){
+				if(vetor[i] == prioridade){
+					break;
+				}
 			}
-			quickSort(vetor[0], vetor[n]);
+			while(i < n - 1){
+				vetor[i] = vetor[i + 1];
+				i++;
+			}
+			n--;
+			inserir(novaPrioridade);
 		}
 	}
 	
 	private void quickSort(int ini, int fim){
-		int i = ini;
-		int f = fim;
-		int pivo = ini;
+		if(ini < fim){
+			int meio = particiona(ini, fim);
+			quickSort(ini, meio - 1);
+			quickSort(meio + 1, fim);
+		}
+	}
 		
-		while(f >= i){
-			while(vetor[i] < vetor[pivo]){
+	private int particiona(int p, int r){		
+		int pivo = vetor[p];
+		int i = p + 1;
+		int f = r;
+		while(i >= f){
+			if(vetor[i] <= pivo){
 				i++;
-			}
-			while(vetor[f] > vetor[pivo]){
+			}else if(pivo < vetor[f]){
 				f--;
-			}
-			if(f >= i){
+			}else{
 				int aux = vetor[i];
 				vetor[i] = vetor[f];
 				vetor[f] = aux;
@@ -90,16 +99,9 @@ public class LPMaximaOrdenada {
 				f--;
 			}
 		}
-		if(f - ini >= 1){
-			quickSort(ini, f);
-		}
-		if(fim - i >= 1){
-			quickSort(i, fim);
-		}
-	}
-	
-	private int particiona(int p, int r){		
-		return 0;
+		vetor[p] = vetor[f];
+		vetor[f] = pivo;
+		return f;
 	}
 	
 }
