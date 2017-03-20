@@ -83,6 +83,12 @@ public class HeapMaximo {
 		for(int i = 0; i< n; i++){
 			if(vetor[i] == prioridade){
 				vetor[i] = novaPrioridade;
+				if(prioridade < novaPrioridade){
+					subir(novaPrioridade);
+				}
+				if(prioridade > novaPrioridade){
+					descer(novaPrioridade);
+				}
 				break;
 			}
 		}
