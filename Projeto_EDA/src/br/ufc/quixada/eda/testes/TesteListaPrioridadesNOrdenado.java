@@ -17,7 +17,7 @@ public class TesteListaPrioridadesNOrdenado {
 				List<Integer> entrada = EDAUtil.getDadosIniciais(path);
 				
 				//PARA ARQUIVO COM MAIOR QUANTIDADE DE INSER��ES
-				String arquivoOperacao = "operacoesS_" + tamanho;
+				String arquivoOperacao = "operacoesI_" + tamanho;
 				path = EDAConstants.caminhoPasta + arquivoOperacao + ".txt";
 				List<Operacao> operacoes = EDAUtil.getOperacoes(path);
 				
@@ -26,15 +26,21 @@ public class TesteListaPrioridadesNOrdenado {
 				listaPrioridade.contruir(entrada);							
 			
 				for (Operacao operacao : operacoes) {
-					if(operacao.getId().equals("S")) {
+					if(operacao.getId().equals("S")){
 						listaPrioridade.getMaximaPrioridade();
-					}	
-					System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
+					}else if(operacao.getId().equals("R")){
+						listaPrioridade.remove();
+					}else if(operacao.getId().equals("I")){
+						listaPrioridade.inserir(operacao.getValor());
+					}else if(operacao.getId().equals("A")) {
+						listaPrioridade.alterarPrioridade(operacao.getValor(),operacao.getNovoValor());
+					}
+					//System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
 				}
 				long tempo = System.currentTimeMillis() - tempoInicial;			  
 				System.out.println(arquivoOperacao + ": " + tempo);
 				
-				/*//PARA ARQUIVO COM MAIOR QUANTIDADE DE ALTERA��ES
+				//PARA ARQUIVO COM MAIOR QUANTIDADE DE ALTERA��ES
 				arquivoOperacao = "operacoesA_" + tamanho;
 				path = EDAConstants.caminhoPasta + arquivoOperacao + ".txt";
 				operacoes = EDAUtil.getOperacoes(path);
@@ -44,12 +50,70 @@ public class TesteListaPrioridadesNOrdenado {
 				listaPrioridade.contruir(entrada);							
 			
 				for (Operacao operacao : operacoes) {
-					System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
+					if(operacao.getId().equals("S")){
+						listaPrioridade.getMaximaPrioridade();
+					}else if(operacao.getId().equals("R")){
+						listaPrioridade.remove();
+					}else if(operacao.getId().equals("I")){
+						listaPrioridade.inserir(operacao.getValor());
+					}else if(operacao.getId().equals("A")) {
+						listaPrioridade.alterarPrioridade(operacao.getValor(),operacao.getNovoValor());
+					}
+					//System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
 				}	
 				tempo = System.currentTimeMillis() - tempoInicial;			  
 				System.out.println(arquivoOperacao + ": " + tempo);		
 				
-				//ASSIM POR DIANTE, PARA REMO��O E SELE��O*/
+				//ASSIM POR DIANTE, PARA REMO��O E SELE��O
+				//REMOCAO
+				
+				arquivoOperacao = "operacoesR_" + tamanho;
+				path = EDAConstants.caminhoPasta + arquivoOperacao + ".txt";
+				operacoes = EDAUtil.getOperacoes(path);
+				
+				tempoInicial = System.currentTimeMillis();				
+				listaPrioridade = new LPMaximaNOrdenada(2*entrada.size());
+				listaPrioridade.contruir(entrada);							
+			
+				for (Operacao operacao : operacoes) {
+					if(operacao.getId().equals("S")){
+						listaPrioridade.getMaximaPrioridade();
+					}else if(operacao.getId().equals("R")){
+						listaPrioridade.remove();
+					}else if(operacao.getId().equals("I")){
+						listaPrioridade.inserir(operacao.getValor());
+					}else if(operacao.getId().equals("A")) {
+						listaPrioridade.alterarPrioridade(operacao.getValor(),operacao.getNovoValor());
+					}
+					//System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
+				}	
+				tempo = System.currentTimeMillis() - tempoInicial;			  
+				System.out.println(arquivoOperacao + ": " + tempo);
+				
+				//SELECAO
+				
+				arquivoOperacao = "operacoesS_" + tamanho;
+				path = EDAConstants.caminhoPasta + arquivoOperacao + ".txt";
+				operacoes = EDAUtil.getOperacoes(path);
+				
+				tempoInicial = System.currentTimeMillis();				
+				listaPrioridade = new LPMaximaNOrdenada(2*entrada.size());
+				listaPrioridade.contruir(entrada);							
+			
+				for (Operacao operacao : operacoes) {
+					if(operacao.getId().equals("S")){
+						listaPrioridade.getMaximaPrioridade();
+					}else if(operacao.getId().equals("R")){
+						listaPrioridade.remove();
+					}else if(operacao.getId().equals("I")){
+						listaPrioridade.inserir(operacao.getValor());
+					}else if(operacao.getId().equals("A")) {
+						listaPrioridade.alterarPrioridade(operacao.getValor(),operacao.getNovoValor());
+					}
+					//System.out.println(operacao.getId() + " " + operacao.getValor() + " " + operacao.getNovoValor());
+				}	
+				tempo = System.currentTimeMillis() - tempoInicial;			  
+				System.out.println(arquivoOperacao + ": " + tempo);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

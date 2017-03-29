@@ -49,23 +49,19 @@ public class HeapMaximo {
 	public void contruir(List<Integer> entrada){
 		for(int i = 0; i < n; i++){
 			vetor[i] = entrada.get(i);
-			n++;
 		}
+		n = entrada.size();
 		for(int i = n/2; i >= 1; i--){
 			descer(i);
 		}
 	}
 	
 	public int getMaximaPrioridade(){
-		int maxima = 0;
-		for(int i = 1; i <= n; i++){
-		if(vetor[i] > vetor[maxima]) maxima = i;
-		}
-		return vetor[maxima];
+		return vetor[0];
 	}
 	
 	public int remove(){
-		if(n >= 1){
+		if(n >= 0){
 			int aux = vetor[1];
 			vetor[1] = vetor[n];
 			n--;
