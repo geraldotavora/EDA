@@ -25,12 +25,10 @@ public class HeapTernario {
 	}
 	
 	public void descer(int i) {
-		int j = i * 3;
+		int j = (i + 1) * 3;
 		if(j <= n) {
-			if(j + 1 <= n) {
-				if(vetor[j] < vetor[j+1]) {
-					j++;
-				}else if(vetor[j + 1] < vetor[j + 2]) {
+			if(j + 1 < n) {
+				if(vetor[j] < vetor[j + 1]) {
 					j++;
 				}
 			}
@@ -45,11 +43,11 @@ public class HeapTernario {
 	
 	public void contruir(List<Integer> entrada) {
 		for(int i = 1; i <= entrada.size(); i++) {
-			vetor[i] = entrada.get(i);
+			this.vetor[i] = entrada.get(i - 1);
 		}
 		n = entrada.size();
 		
-		for(int i = n / 3; i >= 1; i++) {
+		for(int i = n / 3; i >= 1; i--) {
 			descer(i);
 		}
 	}
