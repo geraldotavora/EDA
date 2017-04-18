@@ -7,8 +7,8 @@ public class ConjDisjuntoVetor {
 	
 	public ConjDisjuntoVetor(int n) {
 		this.n = n;
-		this.pai = new int[n];
-		this.ordem = new int[n];
+		this.pai = new int[n + 1];
+		this.ordem = new int[n + 1];
 	}
 	
 	public void make_Set(int x) {
@@ -17,7 +17,7 @@ public class ConjDisjuntoVetor {
 	}
 	
 	public void make_Set_Topper() {
-		for(int i = 0; i < n; i++) {
+		for(int i = 1; i <= n; i++) {
 			make_Set(i);
 		}
 	}

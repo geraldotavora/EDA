@@ -31,24 +31,19 @@ public class EDAUtil {
     
     
     
-    public static Grafo getGrafo(String path) throws IOException{
-    	Grafo g = null;;
-    	//aresta = null;
+    public static Grafo lerGrafo(String path) throws IOException{
     	Scanner scan = new Scanner(new FileReader(path)).useDelimiter(" |\r\n");
+    	Grafo g = new Grafo(scan.nextInt(), scan.nextInt());
+    	Aresta aresta[] = new Aresta[g.getQ_arest()];
     	
-    	if(scan.hasNext()) {
-    		g = new Grafo(scan.nextInt(), scan.nextInt());
-//    		g.setQ_vert(scan.nextInt());
-//    		g.setQ_arest(scan.nextInt());
-    	}
     	
     	int i = 0;
     	while(scan.hasNext()) {
-    		g.getAresta()[i] = new Aresta(scan.nextInt(), scan.nextInt(), scan.nextInt());
+    		aresta[i] = new Aresta(scan.nextInt(), scan.nextInt(), scan.nextDouble());
     		i++;
     	}
     	scan.close();
-    	//g.setAresta(aresta);
+    	g.setAresta(aresta);
     	return g;
     }
     
@@ -67,33 +62,33 @@ public class EDAUtil {
 		});
     }
     
-    public static void quickSort(Aresta[] aresta, int i, int j) {
-    	if(i < j) {
-    		int pivo = particiona(aresta, i, j);
-    		quickSort(aresta, i, pivo - 1);
-    		quickSort(aresta, pivo + 1, j);
-    	}
-    }
-    
-    private static int particiona(Aresta[] aresta, int i, int j) {
-    	int pivo = j;
-    	int q = i - 1;
-    	
-    	for(int k = i; k < j; k++) {
-    		if(aresta[k].getPeso() < aresta[pivo].getPeso()) {
-    			q++;
-    			Aresta aux = aresta[k];
-    			aresta[k] = aresta[q];
-    			aresta[q] = aux;
-    		}
-    	}
-    	
-    	Aresta aux = aresta[q + 1];
-    	aresta[q + 1] = aresta[j];
-    	aresta[j] = aux;
-    	
-    	return q + 1;
-    }
+//    public static void quickSort(Aresta[] aresta, int i, int j) {
+//    	if(i < j) {
+//    		int pivo = particiona(aresta, i, j);
+//    		quickSort(aresta, i, pivo - 1);
+//    		quickSort(aresta, pivo + 1, j);
+//    	}
+//    }
+//    
+//    private static int particiona(Aresta[] aresta, int i, int j) {
+//    	int pivo = j;
+//    	int q = i - 1;
+//    	
+//    	for(int k = i; k < j; k++) {
+//    		if(aresta[k].getPeso() < aresta[pivo].getPeso()) {
+//    			q++;
+//    			Aresta aux = aresta[k];
+//    			aresta[k] = aresta[q];
+//    			aresta[q] = aux;
+//    		}
+//    	}
+//    	
+//    	Aresta aux = aresta[q + 1];
+//    	aresta[q + 1] = aresta[j];
+//    	aresta[j] = aux;
+//    	
+//    	return q + 1;
+//    }
     
     /**
      * Ler as opera��es que ser�o realizadas na lista de prioridades ap�s a sua cria��o.

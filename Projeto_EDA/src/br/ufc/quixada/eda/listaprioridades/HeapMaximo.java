@@ -13,7 +13,7 @@ public class HeapMaximo {
 	private int n = 0;
 	
 	public HeapMaximo(int Nmaximo){
-		nMaximo = Nmaximo;
+		this.nMaximo = Nmaximo;
 		vetor = new int[Nmaximo];
 	}
 	
@@ -47,32 +47,33 @@ public class HeapMaximo {
 	}
 	
 	public void contruir(List<Integer> entrada){
-		for(int i = 0; i < n; i++){
-			vetor[i] = entrada.get(i);
+		for(int i = 1; i < entrada.size(); i++){
+			vetor[i] = entrada.get(i - 1);
+			n++;
 		}
-		n = entrada.size();
-		for(int i = n/2; i >= 1; i--){
+		
+		for(int i = n/2; i > 0; i--){
 			descer(i);
 		}
 	}
 	
 	public int getMaximaPrioridade(){
-		return vetor[0];
+		return vetor[1];
 	}
 	
 	public int remove(){
-		if(n >= 0){
+		if(n >= 1){
 			int aux = vetor[1];
 			vetor[1] = vetor[n];
 			n--;
 			descer(1);
 			return aux;
 		}
-		return -1;
+		return 0;
 	}	
 	
 	public void inserir(int prioridade){
-		if(n < nMaximo){
+		if(n <= nMaximo){
 			vetor[n + 1] = prioridade;
 			n++;
 			subir(n);
@@ -85,10 +86,10 @@ public class HeapMaximo {
 				vetor[i] = novaPrioridade;
 				if(novaPrioridade > prioridade){
 					subir(i);
-				}else{
+				}else if(novaPrioridade < prioridade){
 					descer(i);
+					return;
 				}
-				return;
 			}
 		}
 	}	

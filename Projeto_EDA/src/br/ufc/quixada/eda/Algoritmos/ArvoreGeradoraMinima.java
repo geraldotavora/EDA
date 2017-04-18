@@ -17,15 +17,23 @@ public class ArvoreGeradoraMinima{
 			conj.make_Set(i);
 		}
 		
-		EDAUtil.quickSort(g.getAresta(), 0, g.getQ_arest());
+		g.quickSort(0, g.getAresta().length - 1);
 		
 		for(int i = 0; i < g.getQ_vert(); i++) {
-			Aresta a = g.getAresta()[i];
-			if(conj.find_Set(a.getV()) != conj.find_Set(a.getU())) {
-				solucao.add(a);
-				conj.union(a.getV(), a.getU());
+			Aresta a[] = g.getAresta();
+			if(conj.find_Set_Topper(a[i].getV()) != conj.find_Set_Topper(a[i].getU())) {
+				solucao.add(a[i]);
+				conj.union(a[i].getV(), a[i].getU());
 			}
 		}
 		return solucao;	
+	}
+	
+	public double getCustoArvore(List<Aresta> solucao) {
+		double custo = 0;
+		for(Aresta aresta : solucao) {
+			custo += aresta.getPeso();
+		}
+		return custo;
 	}
 }

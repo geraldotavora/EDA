@@ -1,19 +1,17 @@
 package br.ufc.quixada.eda.Grafo;
 
 public class Aresta {
-	private int u;
 	private int v;
-	private int peso;
+	private int u;
+	private double peso;
 	
-	public Aresta(int u, int v, int peso) {
-		this.u = u;
+	public Aresta(int v, int u, double peso) {
 		this.v = v;
+		this.u = u;
 		this.peso = peso;
 		// TODO Auto-generated constructor stub
 	}
-	public Aresta() {
-		// TODO Auto-generated constructor stub
-	}
+	
 	public int getU() {
 		return u;
 	}
@@ -26,7 +24,7 @@ public class Aresta {
 	public void setV(int v) {
 		this.v = v;
 	}
-	public int getPeso() {
+	public double getPeso() {
 		return peso;
 	}
 	public void setPeso(int peso) {
