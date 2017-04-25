@@ -10,18 +10,20 @@ import java.util.Scanner;
 
 import br.ufc.quixada.eda.Grafo.Aresta;
 import br.ufc.quixada.eda.Grafo.Grafo;
+import br.ufc.quixada.eda.Grafo.ListaAdjacencia;
 
 public class EDAUtil {
-	private static Aresta [] aresta;
+	private static Aresta [] arestas;
+
 	/**
-	 * Ler o arquivo que cont�m as prioridades iniciais da lista de prioridades.
+	 * Ler o arquivo que contem as prioridades iniciais da lista de prioridades.
 	 * @param path
 	 * @return
 	 * @throws IOException
 	 */
     public static List<Integer> getDadosIniciais(String path) throws IOException {
         List<Integer> entrada = new ArrayList<Integer>();
-        Scanner scanner = new Scanner(new FileReader(path)).useDelimiter(" |\r\n");
+        Scanner scanner = new Scanner(new FileReader(path)).useDelimiter("\r\n");
 		while (scanner.hasNext())
 			entrada.add(scanner.nextInt());
 		
@@ -29,69 +31,8 @@ public class EDAUtil {
         return entrada;
     }
     
-    
-    
-    public static Grafo lerGrafo(String path) throws IOException{
-    	Scanner scan = new Scanner(new FileReader(path)).useDelimiter(" |\r\n");
-    	Grafo g = new Grafo(scan.nextInt(), scan.nextInt());
-    	Aresta aresta[] = new Aresta[g.getQ_arest()];
-    	
-    	
-    	int i = 0;
-    	while(scan.hasNext()) {
-    		aresta[i] = new Aresta(scan.nextInt(), scan.nextInt(), scan.nextDouble());
-    		i++;
-    	}
-    	scan.close();
-    	g.setAresta(aresta);
-    	return g;
-    }
-    
-    //Ordenacao
-    
-    public static void ordenarListaAresta(List<Aresta> aresta) {
-    	Collections.sort(aresta, new Comparator<Aresta>() {
-
-			@Override
-			public int compare(Aresta o1, Aresta o2) {
-				if(o1.getPeso() < o2.getPeso()) return -1;
-				else if(o1.getPeso() > o2.getPeso()) return 1;
-				else return 0;
-				}
-				// TODO Auto-generated method stub    		
-		});
-    }
-    
-//    public static void quickSort(Aresta[] aresta, int i, int j) {
-//    	if(i < j) {
-//    		int pivo = particiona(aresta, i, j);
-//    		quickSort(aresta, i, pivo - 1);
-//    		quickSort(aresta, pivo + 1, j);
-//    	}
-//    }
-//    
-//    private static int particiona(Aresta[] aresta, int i, int j) {
-//    	int pivo = j;
-//    	int q = i - 1;
-//    	
-//    	for(int k = i; k < j; k++) {
-//    		if(aresta[k].getPeso() < aresta[pivo].getPeso()) {
-//    			q++;
-//    			Aresta aux = aresta[k];
-//    			aresta[k] = aresta[q];
-//    			aresta[q] = aux;
-//    		}
-//    	}
-//    	
-//    	Aresta aux = aresta[q + 1];
-//    	aresta[q + 1] = aresta[j];
-//    	aresta[j] = aux;
-//    	
-//    	return q + 1;
-//    }
-    
     /**
-     * Ler as opera��es que ser�o realizadas na lista de prioridades ap�s a sua cria��o.
+     * Ler as operacoes que serao realizadas na lista de prioridades apos a sua criacao.
      * @param path
      * @return
      * @throws IOException
@@ -104,6 +45,82 @@ public class EDAUtil {
 			
 		scanner.close();
         return operacoes;
-    }    
+    }   
     
- }
+    public static Grafo lerGrafo(String path) throws IOException{
+    	Grafo g = null;
+
+    	Scanner scanner = new Scanner(new FileReader(path)).useDelimiter(" |\r\n");
+    	
+    	if(scanner.hasNext()){
+	  //  	g.setQtd_vertices(scanner.nextInt());
+	    //	g.setQtd_arestas(scanner.nextInt());
+    //	}
+    		g = new Grafo(scanner.nextInt(), scanner.nextInt());
+    		//Aresta aresta[] = new Aresta[g.getQtd_arestas()];
+    	   ListaAdjacencia adj[] = new ListaAdjacencia[g.getQtd_vertices() + 1];
+    	   for(int i = 0; i < adj.length; i++){
+    		   adj[i] = new ListaAdjacencia();
+    	   }
+	    	int i = 0;
+	
+	    	while(scanner.hasNext()){
+	    		int u = scanner.nextInt();
+	    		int v = scanner.nextInt();
+	    		Aresta a = new Aresta(u, v, scanner.nextInt());
+	    		adj[u].add(a);
+	    		adj[v].add(a);
+	    		
+	    		
+	    		//aresta[i] = new Aresta(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+	    		//i++;
+	    		//listaAresta.add(new Aresta(scanner.nextInt(), scanner.nextInt(), scanner.nextInt()));
+	    	}
+	    	scanner.close();
+	    	g.setAdj(adj);
+	    	return g;
+    	}
+    	return null;
+    }
+    
+    //Ordenação usando o metodo do java
+    public static void ordenarListaAresta(List<Aresta> arestas){
+    	Collections.sort(arestas, new Comparator<Aresta>(){
+			@Override
+			public int compare(Aresta arg0, Aresta arg1) {
+				if(arg0.getPeso_aresta() < arg1.getPeso_aresta()) return -1;
+				else if(arg0.getPeso_aresta() > arg1.getPeso_aresta()) return 1;
+				else return 0;
+			}
+    	});
+    }
+    
+    //Implementação do quickShort 
+    public static void quickSort(Aresta[] arestas, int i, int j){
+    	if(i < j){
+    		int posicaoPivo = particiona(arestas, i, j);
+    		quickSort(arestas, i, posicaoPivo - 1);
+    		quickSort(arestas, posicaoPivo + 1, j);
+    	}
+    }
+    
+    private static int particiona(Aresta[] arestas, int i, int j){
+    	int pivo = j;
+    	int q = i - 1;
+    	
+    	for(int k = i; k < j; k++){
+    		if(arestas[k].getPeso_aresta() < arestas[pivo].getPeso_aresta()){
+    			q++;
+    			Aresta aux = arestas[k];
+    			arestas[k] = arestas[q];
+    			arestas[q] = aux;
+    		}
+    	} 
+    	
+    	Aresta aux = arestas[q + 1];
+    	arestas[q + 1] = arestas[j];
+    	arestas[j] = aux;
+    	
+    	return q + 1;
+    }   	
+}

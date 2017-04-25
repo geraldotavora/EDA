@@ -1,41 +1,41 @@
 package br.ufc.quixada.eda.conjuntosdisjuntos;
 
 public class ConjDisjunto {
-	private Node p [] = null;
-	private int ref [] = null;
-	private int nMax = 0;
+	private int pai [] = null;
+	private int ordenado [] = null;
+	private int n = 0;
 	
-	public ConjDisjunto(int nMax) {
-		this.nMax = nMax;
-		this.p = new Node[nMax];
-		this.ref = new int[nMax];
+	public ConjDisjunto(int n){
+		this.n = n;
+		this.pai = new int[n];
+		this.ordenado = new int[n];		
 	}
 	
-	public int findSet(int x) {
-		if(this.p[x].getValor() == x) {
-			return x;
-		}
-		this.p[x].setValor(findSet(this.p[x].getValor()));
-		return this.p[x].getValor();
+	public void make_set(int v){
+		this.pai[v] = v;
+		this.ordenado[v] = 0;
 	}
 	
-	public void makeSet(int x) {
-		this.p[x].setValor(x);
-		this.ref[x] = 0;
+	public int find_set(int v){
+		if(v == this.pai[v]) return v;
+		
+		this.pai[v] = find_set(this.pai[v]);
+		return this.pai[v];
 	}
 	
-	public void link(int x, int y) {
-		if(this.ref[x] < this.ref[y]) {
-			this.p[x].setValor(y);
-		}else {
-			if(this.ref[x] == this.ref[y]) {
-				this.ref[x]++;
+	public void link(int v, int u){
+		if(this.ordenado[v] < this.ordenado[u]){
+			this.pai[v] = u;
+		}else{
+			if(this.ordenado[v] == this.ordenado[u]){
+				this.ordenado[v]++;
 			}
-			this.p[y].setValor(x);
+			this.pai[u] = v;
 		}
 	}
 	
-	public void union(int x, int y) {
-		link(findSet(x), findSet(y));
+	public void union(int v, int u){
+		link(find_set(v), find_set(u));
 	}
+
 }

@@ -1,37 +1,40 @@
 package br.ufc.quixada.eda.Grafo;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ListaAdjacencia implements Iterator<Aresta>{
-	private List<Aresta> lista = null;
-	private int posicao = 0;
+	private List<Aresta> lista;
+	private int posicao;
 	
-	public ListaAdjacencia() {
-		lista = new ArrayList<Aresta>();
+	public ListaAdjacencia(){
+		this.posicao = 0;
+		this.lista = new ArrayList<Aresta>();
 	}
 	
-	public void add(Aresta a) {
-		lista.add(a);
+	public int length(){
+		return this.lista.size();
 	}
 	
-	public void inicializarIterator() {
-		posicao = 0;
+	public boolean isEmpty(){
+		return lista.size() == 0;
+	}
+
+	public void add(Aresta a){
+		this.lista.add(a);
+	}
+	
+	public void InicializaIterator(){
+		this.posicao = 0;
 	}
 
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return (posicao < lista.size());
+		return (this.posicao < this.lista.size());
 	}
 
 	@Override
 	public Aresta next() {
-		// TODO Auto-generated method stub
-		Aresta aa = lista.get(posicao);
-		posicao++;
-		return aa;
+		Aresta aresta = this.lista.get(posicao);
+		this.posicao++;
+		return aresta;
 	}
-
 }

@@ -1,136 +1,109 @@
 package br.ufc.quixada.eda.listaprioridades;
 
+import java.util.List;
 
-/**
- * Implementa a lista de prioridade usando Heap Maximo.
- * @author fabio
- *
- */
 public class HeapMinimo {
 	private int nMaximo = 0;
 	private int vetor[] = null;
-	private int id[] = null;
+	private int indentificador[] = null;
 	private int n = 0;
 	
 	public HeapMinimo(int Nmaximo){
-		nMaximo = Nmaximo;
-		vetor = new int[Nmaximo + 1];
-		id = new int[nMaximo + 1];
+		nMaximo = Nmaximo + 1;
+		vetor = new int[this.nMaximo];
+		indentificador = new int[this.nMaximo];
 	}
 	
-	public boolean vazio() {
-		return (n == 0);
+	public void contruir(List<Integer> entrada){
+        for(int i = 0; i < entrada.size(); i++){
+            this.vetor[i + 1] = entrada.get(i);
+            this.indentificador[i] = i + 1;
+        }
+        
+        this.n = entrada.size();
+        
+        for(int i = (this.n / 2); i >= 0; i--){
+            descer(i);
+        }
+	}
+	
+	public boolean isEmpty(){
+		return (this.n == 0);
 	}
 	
 	private void subir(int i){
-		int j = i / 2;
-		if(j >= 1){
-			if(vetor[j] > vetor[i]){
-				int aux = this.vetor[i];
-				this.vetor[i] = this.vetor[j];
-				this.vetor[j] = aux;
-				
-				aux = this.id[i];
-				this.id[i] = this.id[j];
-				this.id[j] = aux;
-				
-				subir(j);
-			}
-		}
+            int p = (i / 2);
+            if(p >= 1){
+                if(this.vetor[p] > vetor[i]){
+                    swap(i, p);
+                    subir(p);
+                }
+            }
 	}
 	
 	private void descer(int i){
-		int f = i * 2;
-		if(f <= this.n){
-			if(f + 1 <= this.n){
-				if(this.vetor[f] > this.vetor[f + 1]){
-					f++;
-				}
+		int j = 2 * (i + 1);
+		if(j <= this.n){
+			j--;
+			if(j + 1 < this.n && this.vetor[j] < this.vetor[j + 1]) j++;
+			if(this.vetor[i] > this.vetor[j]){
+				swap(i, j);
+				descer(j);				
 			}
-			if(this.vetor[f] < this.vetor[i]){
-				int aux = this.vetor[i];
-				this.vetor[i] = this.vetor[f];
-				this.vetor[f] = aux;
-								
-				aux = this.id[i];
-				this.id[i] = this.id[f];
-				this.id[f] = aux;
-				
-				descer(f);
-			}
-		}
-	}
-	
-	public void contruir(int prioridade[]){
-		for(int i = 1; i < prioridade.length; i++){
-			vetor[i] = prioridade[i - 1];
-			id[i] = i;
-		}
-		n = prioridade.length;
-		for(int i = this.n/2; i >= 1; i--){
-			descer(i);
 		}
 	}
 	
 	public int getMinimaPrioridade(){
-		if(this.n > 0) {
-			return this.id[1];
-		}
-		return -1;
+		return indentificador[1];
 	}
 	
 	public int remove(){
-		if(this.n > 0){
-			int aux = this.id[1];
-			this.vetor[1] = this.vetor[n];
-			this.id[1] = this.id[n];
-			this.n--;
-			descer(1);
-			return aux;
-		}
+            if(this.n > 0){
+                int aux = this.indentificador[1];
+                this.vetor[1] = this.vetor[this.n];
+                this.indentificador[1] = this.indentificador[this.n];
+                this.n--;
+                descer(1);
+                return aux;
+            }
 		return -1;
 	}	
 	
 	public void inserir(int prioridade){
-		if(this.n != this.nMaximo){
-			vetor[this.n + 1] = prioridade;
-			this.n++;
-			subir(n);
-		}
+            if(this.n < nMaximo){
+                this.vetor[this.n + 1] = prioridade;
+                this.n++;
+                subir(this.n);
+            }
 	}
 	
-	public void alterarPrioridade(int vertice, int novaPrioridade){		
-		int i;
-		for(i = 1; i <= this.n && this.id[i] != vertice; i++){
-			if(i > this.n){
-				return;
-			}
-			int aux = vetor[i];
-			vetor[i] = novaPrioridade;
-			if(aux < novaPrioridade){
-					descer(i);
-				}else{
-					subir(i);
-				}
-		}
+	public void alterarPrioridade(int prioridade, int novaPrioridade){
+            for(int i = 1; i <= this.n; i++){
+                if(this.vetor[i] == prioridade){
+                    this.vetor[i] = novaPrioridade;
+                    if(novaPrioridade < prioridade){
+                        subir(i);
+                    } else{
+                        descer(i);
+                    }
+                    return;
+                }
+            }
 	}	
 	
-	public String toString() {
+	private void swap(int i, int j){
+		int temp, tempId;
 		
-		StringBuilder s = new StringBuilder();
-		s.append("[");
+		temp = this.vetor[i];
+		tempId = this.indentificador[i];
 		
-		for(int i = 1; i <= this.n - 1;i++) {
-			s.append(this.vetor[i]);
-			s.append(", ");
-		}
+		this.vetor[i] = this.vetor[j];
+		this.indentificador[i] = this.indentificador[j];
 		
-		if(this.n > 0) {
-			s.append(this.vetor[n]);
-		}
-		
-		s.append("]");
-		
-		return s.toString();
+		this.vetor[j] = temp;
+		this.indentificador[j] = tempId;
 	}
+	
+	
+	
 }
