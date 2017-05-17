@@ -91,12 +91,6 @@ public class EnderecamentoAberto<T> extends Hash<T> {
 			// TODO: handle exception
 		}
 	}
-
-	@Override
-	public String toString() {
-		return "EnderecamentoAberto [removido=" + removido + ", tabela=" + Arrays.toString(tabela) + "]";
-	}
-	
 	
 	
 }
