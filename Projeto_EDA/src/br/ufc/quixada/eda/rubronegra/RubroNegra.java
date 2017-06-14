@@ -1,10 +1,12 @@
 package br.ufc.quixada.eda.rubronegra;
 
-import javax.xml.bind.ParseConversionEvent;
+public class RubroNegra<T> extends No<T>{
 
-import br.ufc.quixada.eda.avl.NoAvl;
+	public RubroNegra(int chave, T info) {
+		super(chave, info);
+		// TODO Auto-generated constructor stub
+	}
 
-public class RubroNegra{
 	private No raiz;
 		
 	public boolean isPreto(No no) {
@@ -19,22 +21,22 @@ public class RubroNegra{
 		no.getDir().setCor(No.isPreta());
 	}
 	
-	public void add(int chave) {
-		raiz = add(raiz, chave);
+	public void add(int chave, T valor) {
+		raiz = add(raiz, chave, valor);
 		raiz.setCor(No.isPreta());
 
 	}
 	
-	private No add(No raiz, int chave) {
+	private No add(No raiz, int chave, T valor) {
 		if(raiz == null) {
-			No node = new No(chave);
+			No node = new No(chave, valor);
 			return node;
 		}
 		
 		if(chave < raiz.getChave()) {
-			raiz.setEsq(add(raiz.getEsq(), chave));
+			raiz.setEsq(add(raiz.getEsq(), chave, valor));
 		}else if(chave > raiz.getChave()) {
-			raiz.setDir(add(raiz.getDir(), chave));
+			raiz.setDir(add(raiz.getDir(), chave, valor));
 		
 		}
 		
@@ -102,7 +104,7 @@ public class RubroNegra{
 			System.out.println("#");
 			return;
 		}
-		System.out.println(n.getChave() +"(" + n.isCor()+ ")");
+		System.out.println(n.getChave() +"(" + n.isCor()+ ")" + n.getInfo());
 		if(n != null && (n.getEsq() != null || n.getDir() != null)) {
 			imp(n.getEsq(), s + "l");
 		}

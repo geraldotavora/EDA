@@ -9,8 +9,9 @@ public class No<T> {
 	private static final boolean vermelha = false;
 	private T info;
 	
-	public No(int chave) {
+	public No(int chave, T info) {
 		this.chave = chave;
+		this.info = info;
 		
 	}
 	
@@ -43,6 +44,14 @@ public class No<T> {
 	}
 	public static boolean isVermelha() {
 		return vermelha;
+	}
+
+	public T getInfo() {
+		return info;
+	}
+
+	public void setInfo(T info) {
+		this.info = info;
 	}
 	
 	
